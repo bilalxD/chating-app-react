@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./Routes/auth.routes.js"
+import mongooseDatabase from "./db/database.js";
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.get("/",(req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, ()=>{
+    mongooseDatabase();
     console.log(`Server Is Running on port ${PORT}`)
 })
