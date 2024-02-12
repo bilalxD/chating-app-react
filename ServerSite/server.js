@@ -3,17 +3,23 @@ import dotenv from "dotenv";
 import authRoutes from "./Routes/auth.routes.js";
 import DB from "./db/database.js";
 
+
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 dotenv.config();
+const PORT = process.env.PORT || 5000;
+
 app.use(express.json());
+
+
+
 // middlewares
 app.use("/api/auth", authRoutes);
 
 
-// app.get("/", (req, res) => {
-//   res.json("hello World");
+
+// app.post("/", (req, res) => {
+
 // });
 
 app.listen(PORT, () => {
