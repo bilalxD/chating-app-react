@@ -2,17 +2,44 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
 
-export const login = (req, res) => {
-  res.send("This is our login api.");
+export const login = async (req, res) => {
+ 
+  try {
+    const {userName , password } = req.body;
+    const user = await User.findOne({userName});
+    const isPassword = await bcrypt.compare(password, user?.password || "");
+    if(!user || !isPassword){
+      res.status(400).json("User Not Found or invalid Password");
+    }
+
+    generateToken(user._id, res);
+
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      userName: user.userName,
+      gender: user.gender,
+      profilePic: user.profilePic,
+    });
+
+  }catch(err){
+    console.log("Error in Signin controller: ",err);
+    res.status(400).json({ Error: "Signin nahi ho sakhta yeh masla agaya hai koi" });
+  }
 };
 
 export const logout = (req, res) => {
-  res.send("This is our logout api.");
+  try{
+    res.cookie("jwt","",{maxAge: 0})
+    res.status(200).json("Logged out Successfully ! ")
+  }catch (err) {
+    console.log("Error in Logout controller: ");
+    res.status(500).json({ Error: "Logout nahi ho sakhta yeh masla agaya hai koi" });
+  }
 };
 
 export const signup = async (req, res) => {
   try {
-
     const {
       fullName,
       userName,
@@ -22,9 +49,9 @@ export const signup = async (req, res) => {
       profilePic,
     } = req.body;
 
-    const newprofilePic = profilePic + userName
+    const newprofilePic = profilePic + userName;
 
-    // confirming password 
+    // confirming password
     if (password !== confirmPassword) {
       return res.status(400).json("Password Don't Match");
     }
@@ -59,11 +86,11 @@ export const signup = async (req, res) => {
         gender: newUser.gender,
         profilePic: newUser.profilePic,
       });
-    }else{
-      res.status(400).json({Error:" Invalid User Data "})
+    } else {
+      res.status(400).json({ Error: " Invalid User Data " });
     }
   } catch (err) {
-    console.log("Error in signup controller: ", err);
+    console.log("Error in signup controller: ");
     res
       .status(500)
       .json({ Error: "Signup nahi ho sakhta yeh masla agaya hai koi" });
