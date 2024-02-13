@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import generateToken from "../utils/generateToken.js";
+
 export const login = (req, res) => {
   res.send("This is our login api.");
 };
@@ -20,11 +22,13 @@ export const signup = async (req, res) => {
       profilePic,
     } = req.body;
 
+    const newprofilePic = profilePic + userName
+
     // confirming password 
     if (password !== confirmPassword) {
       return res.status(400).json("Password Don't Match");
     }
-    
+
     // finding existing users
     const user = await User.findOne({ userName });
 
@@ -44,15 +48,20 @@ export const signup = async (req, res) => {
       userName,
       password: hashedPassword,
       gender,
-      profilePic,
+      profilePic: newprofilePic,
     });
-    await newUser.save();
-    res.status(201).json({
-      _id: newUser._id,
-      userName: newUser.userName,
-      gender: newUser.gender,
-      profilePic: newUser.profilePic,
-    });
+    if (newUser) {
+      generateToken(newUser._id, res);
+      await newUser.save();
+      res.status(201).json({
+        _id: newUser._id,
+        userName: newUser.userName,
+        gender: newUser.gender,
+        profilePic: newUser.profilePic,
+      });
+    }else{
+      res.status(400).json({Error:" Invalid User Data "})
+    }
   } catch (err) {
     console.log("Error in signup controller: ", err);
     res
