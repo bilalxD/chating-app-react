@@ -8,8 +8,8 @@ export const login = async (req, res) => {
     const {userName , password } = req.body;
     const user = await User.findOne({userName});
     const isPassword = await bcrypt.compare(password, user?.password || "");
-    if(!user || !isPassword){
-      res.status(400).json("User Not Found or invalid Password");
+    if(!user.userName || !isPassword){
+     return res.status(400).json({Err:"User Not Found or invalid Password"});
     }
 
     generateToken(user._id, res);
