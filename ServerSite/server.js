@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import authRoutes from "./Routes/auth.routes.js";
 import messageRoutes from "./Routes/message.routes.js";
+import authRoutes from "./Routes/auth.routes.js";
 import DB from "./db/database.js";
 
 
@@ -16,7 +16,8 @@ app.use(express.json());
 
 // middlewares
 app.use("/api/auth", authRoutes);
-app.use("/api/message",messageRoutes);  
+app.use("/api/message", messageRoutes)
+ 
 
 
 
