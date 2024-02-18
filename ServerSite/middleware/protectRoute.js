@@ -4,7 +4,7 @@ import User from "../models/user.model.js";
 
 const protectRoute = async (req, res, next) =>{
     try {
-        const token = req.cookie.jwt;
+        const token = req.cookies.jwt;
         if(!token){
             res.status(401).json({Error: "Token Not Found"})
         }
@@ -18,7 +18,6 @@ const protectRoute = async (req, res, next) =>{
             res.status(401).json({error: "User Not Found"})
         }
         req.user = user;
-
         next();
         
     } catch (error) {

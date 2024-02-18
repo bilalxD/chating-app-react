@@ -1,4 +1,3 @@
-import { Timestamp } from "mongodb";
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
@@ -12,11 +11,11 @@ const messageSchema = new mongoose.Schema({
         ref:"User",
         required:true,
     },
-    message:{
+    messages:{
         type:String,
         required:true,
     }
-},{Timestamp:true})
+},{timestamps:true})
 
 const Message = mongoose.model("Message", messageSchema);
 

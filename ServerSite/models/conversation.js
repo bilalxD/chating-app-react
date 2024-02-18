@@ -1,4 +1,3 @@
-import { Timestamp } from "mongodb";
 import mongoose from "mongoose";
 
 const conversationSchema = mongoose.Schema({
@@ -11,11 +10,11 @@ const conversationSchema = mongoose.Schema({
 
     messages:[
         {
-            type:mongoose.Schema.type.ObjectId,
+            type:mongoose.Schema.Types.ObjectId,
             ref:"Message",
         },
     ],
-},{Timestamp:true})
+},{timestamps:true})
 
 const Conversation = mongoose.model("Conversation",conversationSchema);
 
