@@ -1,6 +1,10 @@
+import SearchInput from "../sidebar/searchInput"
 function sidebar() {
   return (
-    <div>sidebar</div>
+    <div>
+      <SearchInput />
+      <div className="divider p-2"></div>
+    </div>
   )
 }
 
