@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import GenderCheckbox from "./GenderCheckbox";
 import { useState } from "react";
-import Usesignup from "../../hooks/useSignUp"
+import UseSignUp from "../../hooks/useSignUp";
 
 function SignUp() {
   const [Inputs, setInputs] = useState({
@@ -12,13 +12,13 @@ function SignUp() {
     gender: "",
   });
   //Signup Hook
-  const {loading , signup} = Usesignup();
+  const { signup } = UseSignUp();
 
   const checkBoxChange = (gender) => {
-    setInputs({...Inputs, gender })
+    setInputs({ ...Inputs, gender });
   };
 
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     await signup(Inputs);
   };
@@ -84,7 +84,10 @@ function SignUp() {
               setInputs({ ...Inputs, confirmPassword: e.target.value })
             }
           />
-          <GenderCheckbox onCheckBoxChange={checkBoxChange} selectedGender = {Inputs.gender} />
+          <GenderCheckbox
+            onCheckBoxChange={checkBoxChange}
+            selectedGender={Inputs.gender}
+          />
           <Link
             to="/login"
             className="text-sm hover:underline hover:text-blue-500 inline-block mt-2 item float-left ml-1"

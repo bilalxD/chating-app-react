@@ -1,9 +1,10 @@
 import {useState} from 'react'
 import toast from "react-hot-toast"
+import { useAuthContext } from '../context/authContext';
 
 const useSignUp = () => {
   const [loading, setLoading] = useState(false);
-
+  const {setAuthUser} = useAuthContext();
   const signup = async({fullName, userName, password, confirmPassword, gender}) =>{
 
     const success = handleInputError({fullName, userName,password,confirmPassword,gender});
@@ -19,8 +20,12 @@ const useSignUp = () => {
             body: JSON.stringify({fullName,userName,password,confirmPassword,gender})
         })
         const data = await res.json();
-        console.log(data);
-
+        if(data.error){
+            throw new Error(data.error);
+        }
+        // localStorage
+        localStorage.setItem("chat-user",JSON.stringify(data));
+        setAuthUser(data);
     } catch (error) {
         toast.error(error.message);
     }finally{
@@ -35,7 +40,7 @@ export default useSignUp;
 function handleInputError ({fullName, userName,password,confirmPassword,gender}){
     if(!fullName || !userName || !password || !confirmPassword || !gender){
        
-        toast.error("Please Fill All The Feilds");
+        toast.error("Please Fill All The Felids");
         return false;
 
     }
