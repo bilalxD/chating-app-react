@@ -2,6 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors"; 
 
 // import routes 
 import messageRoutes from "./Routes/message.routes.js";
@@ -13,9 +14,11 @@ import DB from "./db/database.js";
 
 
 const app = express();
+
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
