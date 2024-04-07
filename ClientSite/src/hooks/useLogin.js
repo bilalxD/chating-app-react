@@ -10,23 +10,17 @@ const useLogin = () => {
     if (!success) return;
     setLoading(true);
     try {
-      await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userName, password }),
       })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(res.error);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          console.log(data)
-          localStorage.setItem("chat-user", JSON.stringify(data));
-          setAuthUser(data);
-          console.log(data);
-        });
+      const data = await res.json();
+      if(data.error){
+        throw new Error(data.error)
+      }
+      localStorage.setItem("chat-user", data);
+      setAuthUser(data)
     } catch (error) {
       toast.error(error.message);
     } finally {

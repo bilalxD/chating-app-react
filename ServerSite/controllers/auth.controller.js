@@ -9,7 +9,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({userName});
     const isPassword = await bcrypt.compare(password, user?.password || "");
     if(!user || !isPassword){
-     return res.status(400).json({Err:"User Not Found or invalid Password"});
+     return res.status(400).json({error:"User Not Found or invalid Password"});
     }
 
     generateToken(user._id, res);
@@ -24,7 +24,7 @@ export const login = async (req, res) => {
 
   }catch(err){
     console.log("Error in Signin controller: ",err);
-    res.status(400).json({ Error: "Signin nahi ho sakhta yeh masla agaya hai koi" });
+    res.status(500).json({ error: "Signin nahi ho sakhta yeh masla agaya hai koi" });
   }
 };
 
@@ -34,7 +34,7 @@ export const logout = (req, res) => {
     res.status(200).json("Logged out Successfully ! ")
   }catch (err) {
     console.log("Error in Logout controller: ");
-    res.status(500).json({ Error: "Logout nahi ho sakhta yeh masla agaya hai koi" });
+    res.status(500).json({ error: "Logout nahi ho sakhta yeh masla agaya hai koi" });
   }
 };
 
@@ -53,7 +53,7 @@ export const signup = async (req, res) => {
 
     // confirming password
     if (password !== confirmPassword) {
-      return res.status(400).json("Password Don't Match");
+      return res.status(400).json({error: "Password Don't Match"});
     }
 
     // finding existing users
@@ -62,7 +62,7 @@ export const signup = async (req, res) => {
     if (user) {
       return res
         .status(400)
-        .json("This Username Is Already Exist Please Try Another");
+        .json({error: "This Username Is Already Exist Please Try Another"});
     }
 
     //Hashed Password Here
@@ -87,12 +87,12 @@ export const signup = async (req, res) => {
         profilePic: newUser.profilePic,
       });
     } else {
-      res.status(400).json({ Error: " Invalid User Data " });
+      res.status(400).json({ error: " Invalid User Data " });
     }
   } catch (err) {
     console.log("Error in signup controller: ");
     res
       .status(500)
-      .json({ Error: "Signup nahi ho sakhta yeh masla agaya hai koi" });
+      .json({ error: "Signup nahi ho sakhta yeh masla agaya hai koi" });
   }
 };
