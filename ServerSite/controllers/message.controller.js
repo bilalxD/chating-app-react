@@ -4,7 +4,7 @@ import Message from "../models/message.model.js";
 export const sendMessage = async (req, res) => {
 
 try {
-    const {messages} = req.body;
+    const {message} = req.body;
     const{id: receiverId } = req.params;
     const senderId = req.user._id;
 
@@ -19,7 +19,7 @@ try {
     const newMessages = new Message({
         senderId,
         receiverId,
-        messages,
+        message,
     });
     if (newMessages) {
         conversation.messages.push(newMessages._id); 

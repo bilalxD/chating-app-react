@@ -25,7 +25,7 @@ const useSendMessages = () => {
       setLoading(false);
     }
   };
-  return  { loading, sendMessages };
+  return { loading, sendMessages };
 };
 
 export default useSendMessages;
