@@ -4,13 +4,13 @@ import useConversation from "../../zustand/useConversation";
 export const Message = ({ message }) => {
   const { authUser } = useAuthContext();
   const { selectedConversation } = useConversation();
-
-  const fromMe = message._id === authUser._id;
-  const chatClassName = !fromMe ? "chat-end" : "chat-start";
-  const profilePic = !fromMe
+  
+  const fromMe = message.senderId === authUser._id;
+  const chatClassName = fromMe ? "chat-end" : "chat-start";
+  const profilePic = fromMe
     ? authUser.profilePic
     : selectedConversation?.profilePic;
-  const bgBubbleColor = !fromMe ? "bg-cyan-500" : "";
+  const bgBubbleColor = fromMe ? "bg-cyan-500" : "";
 
   return (
     <div className={`chat ${chatClassName} m-2`}>
