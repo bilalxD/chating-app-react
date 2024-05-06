@@ -17,6 +17,7 @@ const MessagesInput = () => {
           type="text"
           name="chatBox"
           id="chatBox"
+          value={message}
           className="bordered text-sm rounded-lg text-white bg-gray-700 border-gray-600 w-full block p-2.5"
           placeholder="Send a message"
           onChange={(e) => setMessage(e.target.value)}
