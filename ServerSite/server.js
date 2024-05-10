@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors"; 
+import {app, server} from "./socket/socket.js"
 
 // import routes 
 import messageRoutes from "./Routes/message.routes.js";
@@ -13,7 +14,6 @@ import userRoutes from "./Routes/user.routes.js";
 import DB from "./db/database.js";
 
 
-const app = express();
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -36,7 +36,7 @@ app.use("/api/users", userRoutes)
 
 // });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   DB();
   console.log(`Server Is Running on port ${PORT}`);
 });
